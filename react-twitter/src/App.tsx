@@ -1,13 +1,22 @@
-import React from 'react';
-import { Layout } from 'components/Layout';
-import Router from 'components/Router';
+import { useState } from "react";
+
+import { Layout } from "components/Layout";
+import Router from "components/Router";
+
+import { getAuth } from "firebase/auth";
+import { app } from "firebaseApp";
 
 function App() {
-  return (
-    <Layout>
-      <Router />
-    </Layout>
-  );
+    const auth = getAuth(app);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+        !!auth?.currentUser
+    );
+    console.log(auth, isAuthenticated);
+    return (
+        <Layout>
+            <Router />
+        </Layout>
+    );
 }
 
 export default App;
