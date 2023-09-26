@@ -95,7 +95,7 @@ export default function SignupForm() {
             </div>
             {error && error?.length > 0 && (
                 <div className="form__block">
-                    <div className="form_error">{error}</div>
+                    <div className="form__error">{error}</div>
                 </div>
             )}
             <div className="form__block">
@@ -104,10 +104,10 @@ export default function SignupForm() {
                     로그인하기
                 </Link>
             </div>
-            <div className="form__block">
+            <div className="form__block--lg">
                 <button
                     type="submit"
-                    className="form__btn-submit"
+                    className="form__btn--submit"
                     disabled={error?.length > 0}
                 >
                     회원가입

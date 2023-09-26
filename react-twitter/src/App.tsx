@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "firebaseApp";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "components/loader/Loader";
 
 function App() {
     const auth = getAuth(app);
@@ -24,11 +25,10 @@ function App() {
             setInit(true);
         });
     }, [auth]);
-    console.log(auth, isAuthenticated);
     return (
         <Layout>
             <ToastContainer />
-            {init ? <Router isAuthenticated={isAuthenticated} /> : "loading"}
+            {init ? <Router isAuthenticated={isAuthenticated} /> : <Loader />}
         </Layout>
     );
 }
