@@ -5,6 +5,7 @@ sans-serif;
 $background:#1e293b;
 $activeBg:rgb(43, 55, 72);
 $white: #fff;
+$backgroundLight: #263340;
 $gray:#6b7280;
 $grayDark:#3f434d;
 $border: #708090;
@@ -29,6 +30,7 @@ body {
 
 .layout {
     max-width: 600px;
+    width:100%;
     margin:0 auto;
     position:relative;
     border-left:1px solid $border;
@@ -72,7 +74,7 @@ body {
 
     &__grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         background: transparent;
 
         button {
@@ -91,16 +93,37 @@ body {
 
 //home layout
 .home {
+    &__search-div {
+        display: flex;
+        justify-content: center;
+    }
+    &__search {
+        @extend .post-form__input;
+        background: $backgroundLight;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        text-indent: 10px;
+        &:focus {
+            border:1px solid $activeBorder;
+            background: $activeBg;
+        }
+    }
     &__top {
         @extend .transparent;
         @extend .sticky;
     }
     &__title {
         background: transparent;
-        width: 100%;
+        width: calc(100% - 32px);
         padding: 16px;
         font-weight: 700;
         font-size: 20px;
+        &-text {
+            width:100%;
+        }
     }
     &__tabs {
         background: transparent;
