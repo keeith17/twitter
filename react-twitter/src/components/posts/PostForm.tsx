@@ -1,19 +1,53 @@
 import { useContext, useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { FiImage } from "react-icons/fi";
-import { db } from "firebaseApp";
+import { db, storage } from "firebaseApp";
 import { toast } from "react-toastify";
 import AuthContext from "context/AuthContext";
+import { v4 as uuidv4 } from "uuid";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 export default function PostForm() {
     const [content, setContent] = useState<string>("");
     const [tags, setTags] = useState<string[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [hashTag, setHashTag] = useState<string>("");
+    const [imageFile, setImageFile] = useState<string | null>(null);
     const { user } = useContext(AuthContext);
-    const handleFileUpload = () => {};
+    const handleFileUpload = (e: any) => {
+        const {
+            target: { files },
+        } = e;
+        const file = files?.[0];
+        const fileReader = new FileReader();
+        fileReader?.readAsDataURL(file);
+        fileReader.onloadend = (e: any) => {
+            const { result } = e?.currentTarget;
+            setImageFile(result);
+        };
+    };
+
+    const handleDeleteImage = () => {
+        setImageFile(null);
+    };
+
     const onSubmit = async (e: any) => {
+        setIsSubmitting(true);
+        const key = `${user?.uid}/${uuidv4()}`;
+        const storageRef = ref(storage, key);
         e.preventDefault();
         try {
+            //이미지 먼저 업로드
+            let imageUrl = "";
+            if (imageFile) {
+                const data = await uploadString(
+                    storageRef,
+                    imageFile,
+                    "data_url"
+                );
+                imageUrl = await getDownloadURL(data?.ref);
+            }
+            //업로드된 이미지의 download url 업데이트
             await addDoc(collection(db, "posts"), {
                 content: content,
                 createdAt: new Date()?.toLocaleDateString("ko", {
@@ -24,15 +58,19 @@ export default function PostForm() {
                 uid: user?.uid,
                 email: user?.email,
                 hashTags: tags,
+                imageUrl: imageUrl,
             });
             setContent("");
             setTags([]);
             setHashTag("");
+            setImageFile(null);
             toast.success("게시글을 생성했습니다");
+            setIsSubmitting(false);
         } catch (e: any) {
             console.log(e);
         }
     };
+
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const {
             target: { name, value },
@@ -41,6 +79,7 @@ export default function PostForm() {
             setContent(value);
         }
     };
+
     const onChangeHashTag = (e: any) => {
         setHashTag(e?.target?.value?.trim());
     };
@@ -63,6 +102,7 @@ export default function PostForm() {
     const removeTag = (tag: string) => {
         setTags(tags?.filter((val) => val !== tag));
     };
+
     return (
         <form className="post-form" onSubmit={onSubmit}>
             <textarea
@@ -97,21 +137,36 @@ export default function PostForm() {
                 />
             </div>
             <div className="post-form__submit-area">
-                <label htmlFor="file-input" className="post-form__file">
-                    <FiImage className="post-form__file-icon" />
-                </label>
-                <input
-                    type="file"
-                    name="file-input"
-                    id="file-input"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                />
+                <div className="post-form__image-area">
+                    <label htmlFor="file-input" className="post-form__file">
+                        <FiImage className="post-form__file-icon" />
+                    </label>
+                    <input
+                        type="file"
+                        name="file-input"
+                        id="file-input"
+                        accept="image/*"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                    />
+                    {imageFile && (
+                        <div className="post-form__attachment">
+                            <img src={imageFile} alt="attachment" width={100} />
+                            <button
+                                className="post-form__clear-btn"
+                                type="button"
+                                onClick={handleDeleteImage}
+                            >
+                                Clear
+                            </button>
+                        </div>
+                    )}
+                </div>
                 <input
                     type="submit"
                     value="Tweet"
                     className="post-form__submit-btn"
+                    disabled={isSubmitting} //여러번 업로드하지 못하기 위해
                 />
             </div>
         </form>
