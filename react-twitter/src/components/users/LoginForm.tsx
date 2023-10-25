@@ -68,7 +68,6 @@ export default function LoginForm() {
             provider as GithubAuthProvider | GoogleAuthProvider
         )
             .then((result) => {
-                console.log(result);
                 toast.success("로그인 되었습니다");
             })
             .catch((error) => {

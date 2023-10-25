@@ -89,7 +89,6 @@ export default function HomePage() {
         }
     }, [getFollowingIds, user]);
 
-    console.log(followingIds);
     return (
         <div className="home">
             <div className="home__top">
