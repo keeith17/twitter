@@ -90,6 +90,7 @@ body {
             background: transparent;
             padding: 16px 0;
             backdrop-filter: blur(10px);
+            cursor: pointer;
         }
     }
 }
@@ -360,7 +361,32 @@ body {
     &__flex {
         display: flex;
         gap: 4px;
-        align-items:center;
+        align-items: center;
+        &--between {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;   
+        }
+    }
+
+    &__follow-btn {
+        @extend .button;
+        background: $activeBorder;
+        color: $white;
+        &:hover, &:focus {
+            background: $white;
+            color: $activeBorder;
+        }        
+    }
+
+    &__following-btn {
+        @extend .button;
+        background: $white;
+        color: $activeBorder;
+        &:hover, &:focus {
+            background: $activeBorder;
+            color: $white;
+        }        
     }
 
     &__email,

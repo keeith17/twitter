@@ -12,13 +12,12 @@ $danger: #dc2626;
 $danger2: #681313;
 
 .comment {
-    padding-bottom: 12px;
     &__borderBox {
         border-bottom: 1px solid  $border;
         padding: 16px 0;
     }
     &__imgBox {
-        padding: 16px 0;
+        padding:16px 0;
     }
 
     &__flexBox {
