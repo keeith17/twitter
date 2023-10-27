@@ -10,6 +10,7 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { PostProps } from "pages/home";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -25,6 +26,7 @@ interface UserProps {
 export default function FollowingBox({ post }: FollowingProps) {
     const { user } = useContext(AuthContext);
     const [postFollowers, setPostFollowers] = useState<any>([]);
+    const t = useTranslation();
     const onClickFollow = async (e: any) => {
         e.preventDefault();
         try {
@@ -112,7 +114,7 @@ export default function FollowingBox({ post }: FollowingProps) {
                         className="post__following-btn"
                         onClick={onClickDeleteFollow}
                     >
-                        Following
+                        {t("BUTTON_FOLLOWING")}
                     </button>
                 ) : (
                     <button
@@ -120,7 +122,7 @@ export default function FollowingBox({ post }: FollowingProps) {
                         className="post__follow-btn"
                         onClick={onClickFollow}
                     >
-                        Follow
+                        {t("BUTTON_FOLLOW")}
                     </button>
                 ))}
         </>

@@ -14,6 +14,7 @@ import {
     uploadString,
 } from "firebase/storage";
 import PostHeader from "./PostHeader";
+import useTranslation from "hooks/useTranslation";
 
 export default function PostEditForm() {
     const params = useParams();
@@ -25,6 +26,7 @@ export default function PostEditForm() {
     const [imageFile, setImageFile] = useState<string | null>(null);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const t = useTranslation();
     const handleFileUpload = (e: any) => {
         const {
             target: { files },
@@ -138,7 +140,7 @@ export default function PostEditForm() {
                     name="content"
                     id="content"
                     value={content}
-                    placeholder="what is happening?"
+                    placeholder={t("POST_PLACEHOLDER")}
                     onChange={onChange}
                 />
                 <div className="post-form__hashtags">
@@ -157,7 +159,7 @@ export default function PostEditForm() {
                         className="post-form__input"
                         name="hashtag"
                         id="hashtag"
-                        placeholder="해시태그 + 스페이스바 입력"
+                        placeholder={t("POST_HASHTAG")}
                         onChange={onChangeHashTag}
                         onKeyUp={handleKeyUp}
                         value={hashTag}
@@ -188,14 +190,14 @@ export default function PostEditForm() {
                                     type="button"
                                     onClick={handleDeleteImage}
                                 >
-                                    Clear
+                                    {t("BUTTON_CLEAR")}
                                 </button>
                             </div>
                         )}
                     </div>
                     <input
                         type="submit"
-                        value="수정"
+                        value={t("BUTTON_EDIT")}
                         className="post-form__submit-btn"
                         disabled={isSubmitting} //여러번 업로드하지 못하기 위해
                     />

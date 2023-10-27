@@ -1,3 +1,4 @@
+import { languageState } from "atom";
 import PostBox from "components/posts/PostBox";
 import AuthContext from "context/AuthContext";
 import {
@@ -8,9 +9,11 @@ import {
     where,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { PostProps } from "pages/home";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 const PROFILE_DEFAULT_URL = "/logo512.png";
 type TabType = "my" | "like";
@@ -21,6 +24,14 @@ export default function ProfilePage() {
     const [likePosts, setLikePosts] = useState<PostProps[]>([]);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [language, setLanguage] = useRecoilState(languageState);
+    const t = useTranslation();
+
+    const onClickLanguage = () => {
+        setLanguage(language === "ko" ? "en" : "ko");
+        localStorage.setItem("language", language === "ko" ? "en" : "ko");
+    };
+
     useEffect(() => {
         if (user) {
             let postRef = collection(db, "posts");
@@ -65,19 +76,28 @@ export default function ProfilePage() {
                         width={100}
                         height={100}
                     />
-                    <button
-                        type="button"
-                        className="profile__btn"
-                        onClick={() => {
-                            navigate("/profile/edit");
-                        }}
-                    >
-                        프로필 수정
-                    </button>
+                    <div className="profile__flex">
+                        <button
+                            type="button"
+                            className="profile__btn"
+                            onClick={() => {
+                                navigate("/profile/edit");
+                            }}
+                        >
+                            {t("BUTTON_EDIT_PROFILE")}
+                        </button>
+                        <button
+                            type="button"
+                            className="profile__btn--language"
+                            onClick={onClickLanguage}
+                        >
+                            {language === "ko" ? "English" : "한국어"}
+                        </button>
+                    </div>
                 </div>
                 <div className="profile__text">
                     <div className="profile__name">
-                        {user?.displayName || "사용자님"}
+                        {user?.displayName || t("PROFILE_NAME")}
                     </div>
                     <div className="profile__email">{user?.email}</div>
                 </div>
@@ -112,7 +132,7 @@ export default function ProfilePage() {
                         ) : (
                             <div className="post__no-posts">
                                 <div className="post__text">
-                                    게시글이 없습니다.
+                                    {t("NO_POSTS")}
                                 </div>
                             </div>
                         )}
@@ -127,7 +147,7 @@ export default function ProfilePage() {
                         ) : (
                             <div className="post__no-posts">
                                 <div className="post__text">
-                                    게시글이 없습니다.
+                                    {t("NO_POSTS")}
                                 </div>
                             </div>
                         )}

@@ -501,6 +501,12 @@ body {
     margin-top: 2.5rem;
     justify-content: space-between;
     align-items: center;
+
+    &__flex {
+        display:flex;
+        gap: 8px;
+    }
+    
     &__image {
         border-radius: 50%;
         width: 100px;
@@ -510,6 +516,14 @@ body {
     &__btn {
         @extend .button;
         background: $primaryColor;
+
+        &--language {
+            @extend .button;
+            background: $gray;
+            &:hover, &:focus {
+                background: $grayDark;
+            }
+        }
 
         &:hover, &:focus {
             background: $activeBorder;

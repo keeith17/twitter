@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import AuthContext from "context/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import useTranslation from "hooks/useTranslation";
 
 export default function PostForm() {
     const [content, setContent] = useState<string>("");
@@ -14,6 +15,7 @@ export default function PostForm() {
     const [hashTag, setHashTag] = useState<string>("");
     const [imageFile, setImageFile] = useState<string | null>(null);
     const { user } = useContext(AuthContext);
+    const t = useTranslation();
     const handleFileUpload = (e: any) => {
         const {
             target: { files },
@@ -111,7 +113,7 @@ export default function PostForm() {
                 name="content"
                 id="content"
                 value={content}
-                placeholder="what is happening?"
+                placeholder={t("POST_PLACEHOLDER")}
                 onChange={onChange}
             />
             <div className="post-form__hashtags">
@@ -130,7 +132,7 @@ export default function PostForm() {
                     className="post-form__input"
                     name="hashtag"
                     id="hashtag"
-                    placeholder="해시태그 + 스페이스바 입력"
+                    placeholder={t("POST_HASHTAG")}
                     onChange={onChangeHashTag}
                     onKeyUp={handleKeyUp}
                     value={hashTag}
@@ -157,14 +159,14 @@ export default function PostForm() {
                                 type="button"
                                 onClick={handleDeleteImage}
                             >
-                                Clear
+                                {t("BUTTON_CLEAR")}
                             </button>
                         </div>
                     )}
                 </div>
                 <input
                     type="submit"
-                    value="Tweet"
+                    value={t("BUTTON_TWEET")}
                     className="post-form__submit-btn"
                     disabled={isSubmitting} //여러번 업로드하지 못하기 위해
                 />

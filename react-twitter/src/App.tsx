@@ -5,9 +5,10 @@ import Router from "components/Router";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "firebaseApp";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "components/loader/Loader";
+import { RecoilRoot } from "recoil";
 
 function App() {
     const auth = getAuth(app);
@@ -26,15 +27,21 @@ function App() {
         });
     }, [auth]);
     return (
-        <Layout>
-            <ToastContainer
-                theme="dark"
-                autoClose={1000}
-                hideProgressBar
-                newestOnTop
-            />
-            {init ? <Router isAuthenticated={isAuthenticated} /> : <Loader />}
-        </Layout>
+        <RecoilRoot>
+            <Layout>
+                <ToastContainer
+                    theme="dark"
+                    autoClose={1000}
+                    hideProgressBar
+                    newestOnTop
+                />
+                {init ? (
+                    <Router isAuthenticated={isAuthenticated} />
+                ) : (
+                    <Loader />
+                )}
+            </Layout>
+        </RecoilRoot>
     );
 }
 
