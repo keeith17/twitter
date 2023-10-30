@@ -45,9 +45,7 @@ export default function NotificationsPage() {
         <div className="home">
             <div className="home__top">
                 <div className="home__title">
-                    <div className="home__title-text">
-                        {t("NO_NOTIFICATIONS")}
-                    </div>
+                    <div className="home__title-text">Notification</div>
                 </div>
             </div>
             <div className="post">

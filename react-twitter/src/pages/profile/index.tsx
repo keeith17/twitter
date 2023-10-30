@@ -110,7 +110,7 @@ export default function ProfilePage() {
                             setActiveTab("my");
                         }}
                     >
-                        For You
+                        {t("TAB_ALL")}
                     </div>
                     <div
                         className={`home__tab ${
@@ -120,7 +120,7 @@ export default function ProfilePage() {
                             setActiveTab("like");
                         }}
                     >
-                        Likes
+                        {t("TAB_LIKES")}
                     </div>
                 </div>
                 {activeTab === "my" && (
