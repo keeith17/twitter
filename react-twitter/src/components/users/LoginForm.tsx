@@ -95,7 +95,7 @@ export default function LoginForm() {
             <div className="form__block">
                 <label htmlFor="password">{t("FORM_PASSWORD")}</label>
                 <input
-                    type="text"
+                    type="password"
                     name="password"
                     id="password"
                     value={password}
@@ -111,7 +111,7 @@ export default function LoginForm() {
             <div className="form__block">
                 {t("NO_ACCOUNT")}
                 <Link to="/users/signup" className="form__link">
-                    {t("SIGNIN_LINK")}
+                    {t("SIGNUP_LINK")}
                 </Link>
             </div>
             <div className="form__block--lg">

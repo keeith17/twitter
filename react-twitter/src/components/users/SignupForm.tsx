@@ -109,7 +109,7 @@ export default function SignupForm() {
             <div className="form__block">
                 <label htmlFor="password">{t("FORM_PASSWORD")}</label>
                 <input
-                    type="text"
+                    type="password"
                     name="password"
                     id="password"
                     value={password}
@@ -122,7 +122,7 @@ export default function SignupForm() {
                     {t("FORM_PASSWORD_CHECK")}
                 </label>
                 <input
-                    type="text"
+                    type="password"
                     name="password_confirmation"
                     id="password_confirmation"
                     value={passwordConfirmation}
